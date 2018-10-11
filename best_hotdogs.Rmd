@@ -1,0 +1,28 @@
+---
+title: "Best Hot Dogs in Each State"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r echo=FALSE}
+library(leaflet)
+
+hotdog_file <- read.csv("C:/Users/i52219/Desktop/hd2.csv")
+hotdog_df <- data.frame(hotdog_file)
+hotdog_icon = "H:/developing_data_products/hot-dog-icon.png"
+hotdog_icon = makeIcon(iconUrl=hotdog_icon, iconWidth=40, iconHeight=40, iconAnchorX=0, iconAnchorY=0)
+
+m <- leaflet() %>%
+  addTiles() %>%  
+  addMarkers(lat=hotdog_df$Latitude, lng=hotdog_df$Longitude, 
+             label=hotdog_df$Restarant, popup=hotdog_df$Address, icon=hotdog_icon) %>%
+  addControl("Best Hot Dog in Each State!", position = "topleft") %>%
+  addControl("Created October 11, 2018", position = "bottomleft") %>%
+  addControl("Data stolen from Bruce Kraig and Hawk Krall (https://firstwefeast.com/features/the-best-hot-dog-from-every-state/)", position = "bottomleft") %>%
+  fitBounds(lng1=-125, lat1=50, lng2=-66, lat2=24)
+
+m
+```
